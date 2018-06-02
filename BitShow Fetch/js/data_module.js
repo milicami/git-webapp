@@ -113,7 +113,10 @@ export const fetchSeasonsAndCast = (id) => {
                 listOfSeasons
             }
         })
-    }
+        .catch(response => {
+            return;
+        })
+}
 
 
 //     const request = $.ajax({
@@ -145,27 +148,27 @@ export const fetchSeasonsAndCast = (id) => {
 
 export const fetchSearchShows = (searchValue) => {
     return fetch(url.shows)
-    .then(response => {
-        return response.json();
-    })
-    .then((response) => {
-        const listOfAllShows = [];
-        const listOfSearchedSuggestions = [];
-        response.map(show => {
-            const createdShow = new Show(show.name, show.id, show.image.original, show.summary, show.rating);
-            listOfAllShows.push(createdShow);
+        .then(response => {
+            return response.json();
         })
-        listOfAllShows.forEach(show => {
-            const lowerCasedName = show.name.toLowerCase();
-            if (lowerCasedName.includes(searchValue)) {
-                listOfSearchedSuggestions.push(show);
-            }
+        .then((response) => {
+            const listOfAllShows = [];
+            const listOfSearchedSuggestions = [];
+            response.map(show => {
+                const createdShow = new Show(show.name, show.id, show.image.original, show.summary, show.rating);
+                listOfAllShows.push(createdShow);
+            })
+            listOfAllShows.forEach(show => {
+                const lowerCasedName = show.name.toLowerCase();
+                if (lowerCasedName.includes(searchValue)) {
+                    listOfSearchedSuggestions.push(show);
+                }
+            })
+            const slicedList = listOfSearchedSuggestions.slice(0, 10);
+            return slicedList;
         })
-        const slicedList = listOfSearchedSuggestions.slice(0, 10);
-        return slicedList;
-    })
-    }
-    
+}
+
     // const request = $.ajax({
     //     url: `http://api.tvmaze.com/shows`,
     //     method: "GET"

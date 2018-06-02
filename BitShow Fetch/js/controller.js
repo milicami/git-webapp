@@ -13,20 +13,21 @@ const showInfoHandler = (event) => {
 const searchHandler = (event) => {
   const searchValue = $(`.search-box`).val();
   data.fetchSearchShows(searchValue)
-  .then(ui.displaySearchList);
+    .then(ui.displaySearchList)
+    .catch(ui.failed);
 }
-
 
 
 export const init = () => {
   data.fetchShow()
-  .then(ui.displayTop50)
-  .catch(ui.failed);
+    .then(ui.displayTop50)
+    .catch(ui.failed);
 
   $(`body`).on("click", showInfoHandler);
   $(`.search-box`).on("keyup", searchHandler);
   const id = localStorage.getItem("id");
-  data.fetchSeasonsAndCast(id)
-  .then(ui.displayOnShowInfo);
-}
   
+  data.fetchSeasonsAndCast(id)
+    .then(ui.displayOnShowInfo);
+}
+
